@@ -38,9 +38,9 @@ class Post
     private $text;
 
     /**
-     * @ORM\Column(type="blob", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $photo;
+    private $photoFilename;
 
     public function getId(): ?int
     {
@@ -95,14 +95,14 @@ class Post
         return $this;
     }
 
-    public function getPhoto()
+    public function getPhotoFilename(): ?string
     {
-        return $this->photo;
+        return $this->photoFilename;
     }
 
-    public function setPhoto($photo): self
+    public function setPhotoFilename(?string $photoFilename): self
     {
-        $this->photo = $photo;
+        $this->photoFilename = $photoFilename;
 
         return $this;
     }
