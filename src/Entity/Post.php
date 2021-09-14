@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
+use function Symfony\Component\String\u;
 
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
@@ -105,5 +106,10 @@ class Post
         $this->photoFilename = $photoFilename;
 
         return $this;
+    }
+
+    public function getTruncatedText(int $limit): ?string {
+
+        return u($this->getText())->truncate($limit, "…", false);
     }
 }

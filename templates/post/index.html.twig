@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-center mb-5">
+        <a class="btn btn-primary" href="{{ path('post_create') }}">Create new post</a>
+    </div>
+
+    {% for post in posts %}
+        <article class="container mb-3 p-5">
+            {% if post.photoFilename %}
+                <div class="container-fluid d-flex justify-content-center">
+                    <img src="{{ asset('uploads/photos/' ~ post.photoFilename) }}"
+                         alt="The photo associated with post {{ post.id }}."
+                         class="img-fluid">
+                </div>
+            {% endif %}
+
+            <h1 class="text-center">{{ post.title }}</h1>
+            {% if post.subtitle %}
+                <h2 class="text-center">{{ post.subtitle }}</h2>
+            {% endif %}
+            <p>Published on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+
+            <div class="col-8">
+                {{ post.truncatedText(250)|raw }}
+            </div>
+            <a href="/post/{{ post.id }}">Read more >></a>
+        </article>
+    {% else %}
+        <div class="mt-5">
+            <p class="text-center">No posts found</p>
+        </div>
+    {% endfor %}
+{% endblock %}

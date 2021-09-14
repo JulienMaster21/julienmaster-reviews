@@ -1,0 +1,25 @@
+{{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.subtitle) }}
+    {{ form_row(form.publication_date) }}
+    {{ form_row(form.text) }}
+    {{ form_label(form.photo_filename) }}
+    {% if post.photoFilename %}
+        <p>Current photo:</p>
+        <div class="container-fluid d-flex justify-content-center">
+            <img src="{{ asset('uploads/photos/' ~ post.photoFilename) }}"
+                 alt="The photo associated with post {{ post.id }}."
+                 class="img-fluid">
+        </div>
+    {% endif %}
+    {{ form_widget(form.photo_filename) }}
+    {{ form_help(form.photo_filename) }}
+    {{ form_errors(form.photo_filename) }}
+
+    {{ form_row(form._token) }}
+
+    <div class="d-flex justify-content-center mt-5 gap-3">
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+        <a class="btn btn-primary" href="{{ path('post_index') }}">Back to overview</a>
+    </div>
+{{ form_end(form) }}
