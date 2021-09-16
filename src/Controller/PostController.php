@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/post")
@@ -29,7 +30,9 @@ class PostController extends AbstractController {
     /**
      * @Route("/new", name="post_create", methods={"GET","POST"})
      */
-    public function create(Request $request, FileUploader $fileUploader): Response {
+    public function create(Request $request,
+                           ValidatorInterface $validator,
+                           FileUploader $fileUploader): Response {
 
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
@@ -48,6 +51,16 @@ class PostController extends AbstractController {
             $status = $form->get('status')->getData();
             if ($status === "published") {
                 $post->setPublicationDate(new \DateTime('now'));
+            }
+
+            # Validate form
+            $errors = $validator->validate($post);
+            if (count($errors) > 0) {
+                return $this->renderForm('post/create.html.twig', [
+                    'post' => $post,
+                    'form' => $form,
+                    'errors' => $errors
+                ]);
             }
 
             # Persist rest of data
@@ -79,7 +92,10 @@ class PostController extends AbstractController {
     /**
      * @Route("/{id}/edit", name="post_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Post $post, FileUploader $fileUploader): Response
+    public function edit(Request $request,
+                         ValidatorInterface $validator,
+                         Post $post,
+                         FileUploader $fileUploader): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -100,6 +116,17 @@ class PostController extends AbstractController {
             $status = $form->get('status')->getData();
             if ($status === "published") {
                 $post->setPublicationDate(new \DateTime('now'));
+            }
+
+            # Validate form
+            $errors = $validator->validate($post);
+            if (count($errors) > 0) {
+                return $this->renderForm('post/edit.html.twig', [
+                    'post' => $post,
+                    'form' => $form,
+                    'button_label' => 'Update',
+                    'errors' => $errors
+                ]);
             }
 
             # Persist rest of data

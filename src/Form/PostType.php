@@ -5,7 +5,6 @@ namespace App\Form;
 use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -63,6 +62,7 @@ class PostType extends AbstractType {
                 'constraints' => [
                     new File([
                         'maxSize' => '2M',
+                        'maxSizeMessage' => 'The photo is too large. The maximum file size is {{ limit }}{{ suffix }}.',
                         'mimeTypes' => [
                             'image/*'
                         ],

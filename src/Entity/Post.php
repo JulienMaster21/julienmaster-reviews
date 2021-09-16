@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use function Symfony\Component\String\u;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PostRepository::class)
@@ -20,11 +21,16 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(type="string", message="The title must consist of text.")
+     * @Assert\NotBlank(message="A title is required.")
+     * @Assert\Length(max=255, maxMessage="The title can't be longer than 255 characters.")
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Type(type="string", message="The subtitle must consist of text.")
+     * @Assert\Length(max=255, maxMessage="The subtitle can't be longer than 255 characters.")
      */
     private $subtitle;
 
@@ -35,16 +41,23 @@ class Post
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Type("string", message="The post must consist of text.")
      */
     private $text;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Type("string", message="The photo filename must consist of text.")
+     * @Assert\Length(max=255, maxMessage="The photo filename can't be longer than 255 characters.")
      */
     private $photoFilename;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type("string", message="The status must consist of text.")
+     * @Assert\Length(max=255, maxMessage="The status can't be longer than 255 characters.")
+     * @Assert\Choice(choices={"not_published", "published", "archived"},
+     *                message="{{ value }} is not a valid status. Choose one of these: {{ choices }}.")
      */
     // TODO Make this a state machine
     private $status;
