@@ -22,7 +22,7 @@ class PostController extends AbstractController {
     public function index(PostRepository $postRepository): Response {
 
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAll(),
+            'posts' => $postRepository->findAllPublished(),
         ]);
     }
 
@@ -44,12 +44,20 @@ class PostController extends AbstractController {
                 $post->setPhotoFilename($photoFilename);
             }
 
+            # Set publication date if post is published
+            $status = $form->get('status')->getData();
+            if ($status === "published") {
+                $post->setPublicationDate(new \DateTime('now'));
+            }
+
             # Persist rest of data
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
 
-            return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('post_show', [
+                'id' => $post->getId()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('post/create.html.twig', [
@@ -88,10 +96,18 @@ class PostController extends AbstractController {
                 $post->setPhotoFilename($post->getPhotoFilename());
             }
 
+            # Set publication date if post is published
+            $status = $form->get('status')->getData();
+            if ($status === "published") {
+                $post->setPublicationDate(new \DateTime('now'));
+            }
+
             # Persist rest of data
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('post_show', [
+                'id' => $post->getId()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('post/edit.html.twig', [

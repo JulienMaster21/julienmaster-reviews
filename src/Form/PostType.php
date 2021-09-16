@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,10 +35,19 @@ class PostType extends AbstractType {
                 ],
                 'required' => false
             ])
-            ->add('publication_date', DateTimeType::class, [
-                'label' => 'Publication date',
+            ->add('status', ChoiceType::class, [
+                'label' => 'Status',
+                'attr' => [
+                    'data' => 'not_published'
+                ],
                 'required' => true,
-                'data' => new \DateTime('now')
+                'choices' => [
+                    'Not published' => 'not_published',
+                    'Published' => 'published',
+                    'Archived' => 'archived'
+                ],
+                'multiple' => false,
+                'expanded' => false
             ])
             ->add('text', TextareaType::class, [
                 'label' => 'Post',

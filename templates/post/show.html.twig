@@ -7,7 +7,22 @@
     {% if post.subtitle %}
         <h3 class="text-center">{{ post.subtitle }}</h3>
     {% endif %}
-    <p>Published on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+
+    {% if post.notPublished %}
+        <p>status: <span class="badge bg-secondary">{{ post.status|replace({'_': ' '}) }}</span></p>
+    {% elseif post.published %}
+        <p>status: <span class="badge bg-success">{{ post.status|replace({'_': ' '}) }}</span></p>
+    {% elseif post.archived %}
+        <p>status: <span class="badge bg-danger">{{ post.status|replace({'_': ' '}) }}</span></p>
+    {% endif %}
+
+    {% if post.publicationDate and post.published %}
+        <p>Published on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+    {% elseif post.publicationDate %}
+        <p>Was published on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+    {% else %}
+        <p>Not yet published</p>
+    {% endif %}
 
     {% if post.photoFilename %}
         <div class="container-fluid d-flex justify-content-center">

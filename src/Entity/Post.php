@@ -29,7 +29,7 @@ class Post
     private $subtitle;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $publication_date;
 
@@ -42,6 +42,12 @@ class Post
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photoFilename;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    // TODO Make this a state machine
+    private $status;
 
     public function getId(): ?int
     {
@@ -96,6 +102,11 @@ class Post
         return $this;
     }
 
+    public function getTruncatedText(int $limit): ?string {
+
+        return u($this->getText())->truncate($limit, "…", false)->toString();
+    }
+
     public function getPhotoFilename(): ?string
     {
         return $this->photoFilename;
@@ -108,8 +119,30 @@ class Post
         return $this;
     }
 
-    public function getTruncatedText(int $limit): ?string {
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
 
-        return u($this->getText())->truncate($limit, "…", false);
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function isNotPublished(): bool {
+
+        return u($this->status)->lower()->toString() === 'not_published';
+    }
+
+    public function isPublished(): bool {
+
+        return u($this->status)->lower()->toString() === 'published';
+    }
+
+    public function isArchived(): bool {
+
+        return u($this->status)->lower()->toString() === 'archived';
     }
 }

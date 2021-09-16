@@ -12,10 +12,28 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Post[]    findAll()
  * @method Post[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PostRepository extends ServiceEntityRepository
-{
-    public function __construct(ManagerRegistry $registry)
-    {
+class PostRepository extends ServiceEntityRepository {
+
+    public function __construct(ManagerRegistry $registry) {
+
         parent::__construct($registry, Post::class);
+    }
+
+    /**
+     * Finds all the published posts and ordered by reverse chronological publication date.
+     * @return Post[]
+     */
+    public function findAllPublished(): array {
+
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT p
+            FROM App\Entity\Post p
+            WHERE p.status = 'published'
+            ORDER BY p.publication_date DESC"
+        );
+
+        return $query->getResult();
     }
 }
