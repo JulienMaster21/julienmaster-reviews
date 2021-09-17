@@ -19,7 +19,7 @@
     {{ form_row(form._token) }}
 
     <div class="d-flex justify-content-center mt-5 gap-3">
-        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+        <button name="submitbtn" class="btn btn-primary">{{ button_label|default('Save') }}</button>
         <a class="btn btn-primary" href="{{ path('post_index') }}">Back to overview</a>
     </div>
 {{ form_end(form) }}

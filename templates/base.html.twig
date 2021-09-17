@@ -8,7 +8,11 @@
         {% endblock %}
 
         {% block javascripts %}
+            <script src="https://cdn.tiny.cloud/1/{{ tiny_mce_api_key }}/tinymce/5/tinymce.min.js"
+                    referrerpolicy="origin">
+            </script>
             {{ encore_entry_script_tags('app') }}
+            {{ encore_entry_script_tags('tinyMCE') }}
         {% endblock %}
     </head>
     <body>
