@@ -28,7 +28,7 @@ class PostController extends AbstractController {
     }
 
     /**
-     * @Route("/new", name="post_create", methods={"GET","POST"})
+     * @Route("/create", name="post_create", methods={"GET","POST"})
      */
     public function create(Request $request,
                            ValidatorInterface $validator,
