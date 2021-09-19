@@ -3,6 +3,7 @@ twig:
     form_themes: ['bootstrap_5_layout.html.twig']
     globals:
         tiny_mce_api_key: '%env(TINY_MCE_API_KEY)%'
+        font_awesome_api_key: '%env(FONT_AWESOME_API_KEY)%'
 
 when@test:
     twig:
