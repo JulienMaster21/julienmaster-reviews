@@ -7,7 +7,24 @@
         <a class="btn btn-primary" href="{{ path('post_create') }}">Create new post</a>
     </div>
 
-    {% for post in posts %}
+    {# Pagination controls #}
+    <div class="d-flex justify-content-center mb-3" >
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    {# Sorting controls #}
+    <div class="d-flex justify-content-center gap-3">
+        <strong>
+            {% if pagination.isSorted('a.title') %} class="sorted"{% endif %}
+            {{ knp_pagination_sortable(pagination, 'Title', 'title') }}
+        </strong>
+        <strong>
+            {% if pagination.isSorted('a.publication_date') %} class="sorted"{% endif %}
+            {{ knp_pagination_sortable(pagination, 'Publication', 'publication_date') }}
+        </strong>
+    </div>
+
+    {% for post in pagination %}
         <article class="container mb-3 p-5">
             {% if post.photoFilename %}
                 <div class="container-fluid d-flex justify-content-center">
@@ -33,4 +50,9 @@
             <p class="text-center">No posts found</p>
         </div>
     {% endfor %}
+
+    {# Pagination controls #}
+    <div class="d-flex justify-content-center mb-3" >
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}

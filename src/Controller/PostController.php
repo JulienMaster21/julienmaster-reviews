@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Service\FileUploader;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,10 +21,21 @@ class PostController extends AbstractController {
     /**
      * @Route("/", name="post_index", methods={"GET"})
      */
-    public function index(PostRepository $postRepository): Response {
+    public function index(PostRepository $postRepository,
+                          Request $request,
+                          PaginatorInterface $paginator): Response {
+
+        // Get all posts
+        $publishedPosts = $postRepository->findAllPublished();
+
+        // Paginate result
+        $pagination = $paginator->paginate(
+            $publishedPosts,
+            $request->query->getInt('page', 1)
+        );
 
         return $this->render('post/index.html.twig', [
-            'posts' => $postRepository->findAllPublished(),
+            'pagination' => $pagination,
         ]);
     }
 
