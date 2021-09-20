@@ -17,9 +17,9 @@
     {% endif %}
 
     {% if post.publicationDate and post.published %}
-        <p>Published on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+        <p>Published by {{ post.user.username }} on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
     {% elseif post.publicationDate %}
-        <p>Was published on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+        <p>Was published by {{ post.user.username }} on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
     {% else %}
         <p>Not yet published</p>
     {% endif %}

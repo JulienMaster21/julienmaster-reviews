@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\User;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -67,6 +69,12 @@ class PostController extends AbstractController {
                 $post->setPublicationDate(new \DateTime('now'));
             }
 
+            # Set author
+            $user = $this->getUser();
+            if ($user) {
+                $post->setUser($user);
+            }
+
             # Validate form
             $errors = $validator->validate($post);
             if (count($errors) > 0) {
@@ -110,7 +118,8 @@ class PostController extends AbstractController {
     public function edit(Request $request,
                          ValidatorInterface $validator,
                          Post $post,
-                         FileUploader $fileUploader): Response
+                         FileUploader $fileUploader,
+                         UserRepository $userRepository): Response
     {
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -131,6 +140,12 @@ class PostController extends AbstractController {
             $status = $form->get('status')->getData();
             if ($status === "published") {
                 $post->setPublicationDate(new \DateTime('now'));
+            }
+
+            # Set author
+            $user = $this->getUser();
+            if ($user) {
+                $post->setUser($user);
             }
 
             # Validate form

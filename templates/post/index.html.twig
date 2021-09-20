@@ -40,7 +40,12 @@
             {% if post.subtitle %}
                 <h2 class="text-center">{{ post.subtitle }}</h2>
             {% endif %}
-            <p>Published on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+
+            {% if post.user %}
+                <p>Published by {{ post.user.username }} on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+            {% else %}
+                <p>Published by anonymous on: {{ post.publicationDate|date('Y-m-d H:i:s') }}</p>
+            {% endif %}
 
             <div class="col-8">
                 {{ post.truncatedText(250)|raw }}
