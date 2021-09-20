@@ -14,7 +14,7 @@ final class Version20210914144501 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Change photo upload from blob to disk storage.';
     }
 
     public function up(Schema $schema): void

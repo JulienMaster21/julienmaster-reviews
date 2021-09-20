@@ -15,10 +15,10 @@ use Symfony\Component\Validator\Constraints\File;
 /**
  * The form type for a blog post.
  */
-class PostType extends AbstractType {
-
-    public function buildForm(FormBuilderInterface $builder, array $options) {
-
+class PostType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Title',
@@ -72,8 +72,8 @@ class PostType extends AbstractType {
             ]);
     }
 
-    public function configureOptions(OptionsResolver $resolver) {
-
+    public function configureOptions(OptionsResolver $resolver)
+    {
         $resolver->setDefaults([
             'data_class' => Post::class
         ]);

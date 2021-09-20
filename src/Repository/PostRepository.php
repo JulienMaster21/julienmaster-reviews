@@ -14,8 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository {
 
-    public function __construct(ManagerRegistry $registry) {
-
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, Post::class);
     }
 
@@ -23,8 +23,8 @@ class PostRepository extends ServiceEntityRepository {
      * Finds all the published posts and ordered by reverse chronological publication date.
      * @return Post[]
      */
-    public function findAllPublished(): array {
-
+    public function findAllPublished(): array
+    {
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(

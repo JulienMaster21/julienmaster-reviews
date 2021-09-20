@@ -14,7 +14,7 @@ final class Version20210915165232 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Add post status and make publication data nullable.';
     }
 
     public function up(Schema $schema): void

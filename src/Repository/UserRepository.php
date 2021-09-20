@@ -40,6 +40,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
+     * Find one User by the username.
      * @throws NonUniqueResultException
      */
     public function findOneByUsername($username): ?User

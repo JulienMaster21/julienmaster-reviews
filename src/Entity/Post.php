@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use function Symfony\Component\String\u;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +18,7 @@ class Post
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -25,32 +26,32 @@ class Post
      * @Assert\NotBlank(message="A title is required.")
      * @Assert\Length(max=255, maxMessage="The title can't be longer than 255 characters.")
      */
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Type(type="string", message="The subtitle must consist of text.")
      * @Assert\Length(max=255, maxMessage="The subtitle can't be longer than 255 characters.")
      */
-    private $subtitle;
+    private ?string $subtitle;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $publication_date;
+    private ?DateTimeInterface $publication_date;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\Type("string", message="The post must consist of text.")
      */
-    private $text;
+    private string $text;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Type("string", message="The photo filename must consist of text.")
      * @Assert\Length(max=255, maxMessage="The photo filename can't be longer than 255 characters.")
      */
-    private $photoFilename;
+    private ?string $photoFilename;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -60,13 +61,13 @@ class Post
      *                message="{{ value }} is not a valid status. Choose one of these: {{ choices }}.")
      */
     // TODO Make this a state machine
-    private $status;
+    private string $status;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $user;
+    private ?User $user;
 
     public function getId(): ?int
     {
@@ -97,12 +98,12 @@ class Post
         return $this;
     }
 
-    public function getPublicationDate(): ?\DateTimeInterface
+    public function getPublicationDate(): ?DateTimeInterface
     {
         return $this->publication_date;
     }
 
-    public function setPublicationDate(\DateTimeInterface $publication_date): self
+    public function setPublicationDate(DateTimeInterface $publication_date): self
     {
         $this->publication_date = $publication_date;
 
