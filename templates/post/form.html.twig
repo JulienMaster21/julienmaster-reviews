@@ -4,7 +4,7 @@
     {{ form_row(form.status) }}
     {{ form_row(form.text) }}
     {{ form_label(form.photo_filename) }}
-    {% if post.photoFilename %}
+    {% if post.photo_filename|default(null) %}
         <p>Current photo:</p>
         <div class="container-fluid d-flex justify-content-center">
             <img src="{{ asset('uploads/photos/' ~ post.photoFilename) }}"
