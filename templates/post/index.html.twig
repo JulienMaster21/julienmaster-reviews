@@ -3,9 +3,11 @@
 {% block title %}Posts{% endblock %}
 
 {% block content %}
-    <div class="d-flex justify-content-center mb-5">
-        <a class="btn btn-primary" href="{{ path('post_create') }}">Create new post</a>
-    </div>
+    {% if is_granted('ROLE_POST_CREATE') %}
+        <div class="d-flex justify-content-center mb-5">
+            <a class="btn btn-primary" href="{{ path('post_create') }}">Create new post</a>
+        </div>
+    {% endif %}
 
     {# Pagination controls #}
     <div class="d-flex justify-content-center mb-3" >

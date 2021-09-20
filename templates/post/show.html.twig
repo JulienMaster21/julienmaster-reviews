@@ -38,7 +38,11 @@
 
     <div class="d-flex justify-content-center gap-3">
         <a class="btn btn-primary" href="{{ path('post_index') }}">Back to overview</a>
-        <a class="btn btn-primary" href="{{ path('post_edit', {'id': post.id}) }}">Edit</a>
-        {{ include('post/delete_form.html.twig') }}
+        {% if is_granted('ROLE_POST_EDIT') %}
+            <a class="btn btn-primary" href="{{ path('post_edit', {'id': post.id}) }}">Edit</a>
+        {% endif %}
+        {% if is_granted('ROLE_POST_DELETE') %}
+            {{ include('post/delete_form.html.twig') }}
+        {% endif %}
     </div>
 {% endblock %}

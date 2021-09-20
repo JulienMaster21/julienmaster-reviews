@@ -7,6 +7,7 @@ use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Service\FileUploader;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,11 +42,12 @@ class PostController extends AbstractController {
 
     /**
      * @Route("/create", name="post_create", methods={"GET","POST"})
+     * @IsGranted("ROLE_POST_CREATE")
      */
     public function create(Request $request,
                            ValidatorInterface $validator,
-                           FileUploader $fileUploader): Response {
-
+                           FileUploader $fileUploader): Response
+    {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
@@ -103,6 +105,7 @@ class PostController extends AbstractController {
 
     /**
      * @Route("/{id}/edit", name="post_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_POST_EDIT")
      */
     public function edit(Request $request,
                          ValidatorInterface $validator,
@@ -158,6 +161,7 @@ class PostController extends AbstractController {
 
     /**
      * @Route("/{id}", name="post_delete", methods={"POST"})
+     * @IsGranted("ROLE_POST_DELETE")
      */
     public function delete(Request $request, Post $post): Response
     {
