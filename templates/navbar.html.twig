@@ -1,0 +1,44 @@
+{% set currentPath = app.request.pathInfo %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('home') }}">JulienMaster Reviews</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    {% if currentPath == '/' %}
+                        <a class="nav-link active" aria-current="page" href="{{ path('home') }}">Home</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ path('home') }}">Home</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if currentPath == '/post/' %}
+                        <a class="nav-link active" aria-current="page" href="{{ path('post_index') }}">Posts</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ path('post_index') }}">Posts</a>
+                    {% endif %}
+                </li>
+                <li class="nav-item">
+                    {% if currentPath == '/contact' %}
+                        <a class="nav-link active" aria-current="page" href="{{ path('contact') }}">Contact</a>
+                    {% else %}
+                        <a class="nav-link" href="{{ path('contact') }}">Contact</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+        {% if app.user %}
+            <div class="d-flex gap-3">
+                <p class="m-0">Hello, {{ app.user.userIdentifier }}</p>
+                <a href="{{ path('login') }}">Switch</a>
+                <a href="{{ path('logout') }}">Logout</a>
+            </div>
+        {% else %}
+            <div class="d-flex gap-3">
+                <a class="btn btn-primary" href="{{ path('login') }}">Login</a>
+                <a class="btn btn-primary" href="{{ path('register') }}">Register</a>
+            </div>
+        {% endif %}
+    </div>
+</nav>
